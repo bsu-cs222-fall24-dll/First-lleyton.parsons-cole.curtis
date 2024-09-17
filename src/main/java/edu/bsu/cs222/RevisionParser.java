@@ -1,0 +1,15 @@
+package edu.bsu.cs222;
+
+import com.jayway.jsonpath.JsonPath;
+import net.minidev.json.JSONArray;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+public class RevisionParser {
+    public String parse(InputStream testDataStream) throws IOException {
+        JSONArray revision  = (JSONArray) JsonPath.read(testDataStream, "$..timestamp");
+        System.out.println(revision);
+        return revision.get(0).toString();
+    }
+}
