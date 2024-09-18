@@ -7,12 +7,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class RevisionParser {
-    public String parseTimestamp(InputStream testDataStream) throws IOException {
+    public JSONArray parseTimestamp(InputStream testDataStream) throws IOException {
         JSONArray revisionTimestamps  = (JSONArray) JsonPath.read(testDataStream, "$..timestamp");
-        return revisionTimestamps.toString();
+        return revisionTimestamps;
     }
-    public String parseUsername(InputStream testDataStream) throws IOException {
+    public JSONArray parseUsername(InputStream testDataStream) throws IOException {
         JSONArray revisionUsernames  = (JSONArray) JsonPath.read(testDataStream, "$..user");
-        return revisionUsernames.toString();
+        return revisionUsernames;
     }
 }
