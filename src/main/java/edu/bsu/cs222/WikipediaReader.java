@@ -13,6 +13,7 @@ public class WikipediaReader {
     public static void main(String[] args) {
         WikipediaReader wikipediaReader = new WikipediaReader();
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter the name of the wikipedia article you wish to access: ");
         String line = scanner.nextLine();
         try {
             String timestamp = wikipediaReader.getLatestRevisionOf(line);
@@ -23,16 +24,17 @@ public class WikipediaReader {
     }
 
     private String getLatestRevisionOf(String articleTitle) throws IOException {
-        String urlString = String.format("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=%s&ryprop=timestamp&rylimit=1", articleTitle);
-        String encodedUrlString = URLEncoder.encode(urlString, Charset.defaultCharset());
+        String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
+                URLEncoder.encode(articleTitle, Charset.defaultCharset()) +
+                "&rvprop=timestamp|user&rvlimit=4&redirects";
         try {
             URL url = new URL(encodedUrlString);
             URLConnection connection = url.openConnection();
             connection.setRequestProperty("User-Agent", "WikipediaReader/0.1 (cole.curtis@bsu.edu)");
+            connection.connect();
             InputStream inputStream = connection.getInputStream();
             RevisionParser revisionParser = new RevisionParser();
-            String timestamp = revisionParser.parse(inputStream);
-            return timestamp;
+            return revisionParser.parse(inputStream);
         } catch (MalformedURLException malformedURLException){
             throw new RuntimeException(malformedURLException);
         }
