@@ -16,14 +16,16 @@ public class WikipediaReader {
         System.out.println("Please enter the name of the wikipedia article you wish to access: ");
         String line = scanner.nextLine();
         try {
-            String timestamp = wikipediaReader.getLatestRevisionOf(line);
-            System.out.println(timestamp);
+            String timestamps = wikipediaReader.getTimestamps(line);
+            System.out.println(timestamps);
+            String usernames = wikipediaReader.getUsernames(line);
+            System.out.println(usernames);
         } catch (IOException ioException){
             System.err.println("Network Connection Problem: " + ioException.getMessage());
         }
     }
 
-    private String getLatestRevisionOf(String articleTitle) throws IOException {
+    private String getTimestamps(String articleTitle) throws IOException {
         String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
                 URLEncoder.encode(articleTitle, Charset.defaultCharset()) +
                 "&rvprop=timestamp|user&rvlimit=4&redirects";
@@ -34,7 +36,23 @@ public class WikipediaReader {
             connection.connect();
             InputStream inputStream = connection.getInputStream();
             RevisionParser revisionParser = new RevisionParser();
-            return revisionParser.parse(inputStream);
+            return revisionParser.parseTimestamp(inputStream);
+        } catch (MalformedURLException malformedURLException){
+            throw new RuntimeException(malformedURLException);
+        }
+    }
+    private String getUsernames(String articleTitle) throws IOException {
+        String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
+                URLEncoder.encode(articleTitle, Charset.defaultCharset()) +
+                "&rvprop=timestamp|user&rvlimit=4&redirects";
+        try {
+            URL url = new URL(encodedUrlString);
+            URLConnection connection = url.openConnection();
+            connection.setRequestProperty("User-Agent", "WikipediaReader/0.1 (cole.curtis@bsu.edu)");
+            connection.connect();
+            InputStream inputStream = connection.getInputStream();
+            RevisionParser revisionParser = new RevisionParser();
+            return revisionParser.parseUsername(inputStream);
         } catch (MalformedURLException malformedURLException){
             throw new RuntimeException(malformedURLException);
         }

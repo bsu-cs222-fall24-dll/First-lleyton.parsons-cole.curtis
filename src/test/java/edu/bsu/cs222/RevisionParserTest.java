@@ -8,10 +8,18 @@ import java.io.InputStream;
 
 public class RevisionParserTest {
     @Test
-    public void testParse() throws IOException {
+    public void testParseTimestamp() throws IOException {
         RevisionParser parser = new RevisionParser();
         InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
-        String timestamp = parser.parse(testDataStream);
+        String timestamp = parser.parseTimestamp(testDataStream);
         Assertions.assertEquals("2024-09-11T20:15:43Z", timestamp);
+    }
+    @Test
+    public void testParseUsername() throws IOException {
+        RevisionParser parser = new RevisionParser();
+        InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
+        String username = parser.parseUsername(testDataStream);
+        Assertions.assertEquals("CurryTime7-24", username);
+
     }
 }
