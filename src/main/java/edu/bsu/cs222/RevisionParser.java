@@ -15,4 +15,8 @@ public class RevisionParser {
         JSONArray revisionUsernames  = (JSONArray) JsonPath.read(testDataStream, "$..user");
         return revisionUsernames;
     }
+    public JSONArray parseRedirect(InputStream testDataStream) throws IOException{
+        JSONArray revisionRedirect = (JSONArray) JsonPath.read(testDataStream, "$..redirects");
+        return revisionRedirect;
+    }
 }

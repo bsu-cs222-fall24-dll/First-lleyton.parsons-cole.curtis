@@ -16,7 +16,7 @@ public class WikipediaReader {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the name of the wikipedia article you wish to access: ");
         String userInput = scanner.nextLine();
-        if(userInput.isEmpty()){
+        if (userInput.isEmpty()) {
             noInputError();
         }
         try {
@@ -38,10 +38,11 @@ public class WikipediaReader {
             InputStream inputStream = connection.getInputStream();
             RevisionParser revisionParser = new RevisionParser();
             return revisionParser.parseTimestamp(inputStream);
-        } catch (MalformedURLException malformedURLException){
+        } catch (MalformedURLException malformedURLException) {
             throw new RuntimeException(malformedURLException);
         }
     }
+
     private static JSONArray getUsernames(String userInput) throws IOException {
         String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
                 URLEncoder.encode(userInput, Charset.defaultCharset()) +
@@ -54,18 +55,34 @@ public class WikipediaReader {
             InputStream inputStream = connection.getInputStream();
             RevisionParser revisionParser = new RevisionParser();
             return revisionParser.parseUsername(inputStream);
-        } catch (MalformedURLException malformedURLException){
+        } catch (MalformedURLException malformedURLException) {
             throw new RuntimeException(malformedURLException);
         }
     }
-    public static void formatOutput(String userInput) throws IOException {
+    private static JSONArray getRedirect (String userInput) throws IOException {
+        String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
+                URLEncoder.encode(userInput, Charset.defaultCharset()) +
+                "&rvprop=timestamp|user&rvlimit=4&redirects";
+        try {
+            URL url = new URL(encodedUrlString);
+            URLConnection connection = url.openConnection();
+            connection.setRequestProperty("User-Agent", "WikipediaReader/0.1 (cole.curtis@bsu.edu)");
+            connection.connect();
+            InputStream inputStream = connection.getInputStream();
+            RevisionParser revisionParser = new RevisionParser();
+            return revisionParser.parseRedirect(inputStream);
+        } catch (MalformedURLException malformedURLException) {
+            throw new RuntimeException(malformedURLException);
+        }
+    }
+    public static void formatOutput (String userInput) throws IOException {
         JSONArray usernames = getUsernames(userInput);
         JSONArray timestamps = getTimestamps(userInput);
-        for (int j = 0; j < usernames.size(); j++){
+        for (int j = 0; j < usernames.size(); j++) {
             System.out.println("\nUsername: " + usernames.get(j) + "\n" + "Timestamp: " + timestamps.get(j));
         }
     }
     public static void noInputError(){
         System.err.println("Expecting Wikipedia article name: No article name provided.");
-        }
+    }
 }
