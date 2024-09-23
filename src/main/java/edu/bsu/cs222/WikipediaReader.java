@@ -16,6 +16,9 @@ public class WikipediaReader {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the name of the wikipedia article you wish to access: ");
         String userInput = scanner.nextLine();
+        if(userInput.isEmpty()){
+            noInputError(userInput);
+        }
         try {
             formatOutput(userInput);
         } catch (IOException ioException){
@@ -60,6 +63,11 @@ public class WikipediaReader {
         JSONArray timestamps = getTimestamps(userInput);
         for (int j = 0; j < usernames.size(); j++){
             System.out.println("\nUsername: " + usernames.get(j) + "\n" + "Timestamp: " + timestamps.get(j));
+        }
+    }
+    public static void noInputError(String userInput){
+        if(userInput.isEmpty()) {
+            System.err.println("Expecting Wikipedia article name: No article name provided.");
         }
     }
 }
