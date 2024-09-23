@@ -30,4 +30,11 @@ public class RevisionParserTest {
         JSONArray redirect = parser.parseRedirect(testDataStream);
         Assertions.assertEquals(redirect, redirect);
     }
+    @Test
+    public void testParseTitle() throws IOException{
+        RevisionParser parser = new RevisionParser();
+        InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
+        JSONArray title = parser.parseTitle(testDataStream);
+        Assertions.assertEquals(title, title);
+    }
 }

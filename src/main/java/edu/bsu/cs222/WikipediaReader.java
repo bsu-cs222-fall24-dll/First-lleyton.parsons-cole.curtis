@@ -75,9 +75,33 @@ public class WikipediaReader {
             throw new RuntimeException(malformedURLException);
         }
     }
+    private static JSONArray getTitle (String userInput) throws IOException {
+        String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
+                URLEncoder.encode(userInput, Charset.defaultCharset()) +
+                "&rvprop=timestamp|user&rvlimit=4&redirects";
+        try {
+            URL url = new URL(encodedUrlString);
+            URLConnection connection = url.openConnection();
+            connection.setRequestProperty("User-Agent", "WikipediaReader/0.1 (cole.curtis@bsu.edu)");
+            connection.connect();
+            InputStream inputStream = connection.getInputStream();
+            RevisionParser revisionParser = new RevisionParser();
+            return revisionParser.parseTitle(inputStream);
+        } catch (MalformedURLException malformedURLException) {
+            throw new RuntimeException(malformedURLException);
+        }
+    }
     public static void formatOutput (String userInput) throws IOException {
         JSONArray usernames = getUsernames(userInput);
         JSONArray timestamps = getTimestamps(userInput);
+        JSONArray redirect = getRedirect(userInput);
+        if(redirect.isEmpty()) {
+            System.out.println();
+        }
+        else {
+            JSONArray title = getTitle(userInput);
+            System.out.println("Redirected to " + title.getFirst());
+        }
         for (int j = 0; j < usernames.size(); j++) {
             System.out.println("\nUsername: " + usernames.get(j) + "\n" + "Timestamp: " + timestamps.get(j));
         }
