@@ -103,7 +103,7 @@ public class WikipediaReader {
             System.out.println("Redirected to " + title.getFirst());
         }
         for (int j = 0; j < usernames.size(); j++) {
-            System.out.println("\nUsername: " + usernames.get(j) + "\n" + "Timestamp: " + timestamps.get(j));
+            System.out.println("\nTimestamp: " + timestamps.get(j) + "  " + "Username: " + usernames.get(j) + "\n");
         }
     }
     public static void noInputError(){
