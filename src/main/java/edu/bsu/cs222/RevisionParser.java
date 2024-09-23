@@ -8,19 +8,15 @@ import java.io.InputStream;
 
 public class RevisionParser {
     public JSONArray parseTimestamp(InputStream testDataStream) throws IOException {
-        JSONArray revisionTimestamps  = (JSONArray) JsonPath.read(testDataStream, "$..timestamp");
-        return revisionTimestamps;
+        return JsonPath.read(testDataStream, "$..timestamp");
     }
     public JSONArray parseUsername(InputStream testDataStream) throws IOException {
-        JSONArray revisionUsernames  = (JSONArray) JsonPath.read(testDataStream, "$..user");
-        return revisionUsernames;
+        return JsonPath.read(testDataStream, "$..user");
     }
     public JSONArray parseRedirect(InputStream testDataStream) throws IOException{
-        JSONArray revisionRedirect = (JSONArray) JsonPath.read(testDataStream, "$..redirects");
-        return revisionRedirect;
+        return JsonPath.read(testDataStream, "$..redirects");
     }
     public JSONArray parseTitle(InputStream testDataStream) throws IOException{
-        JSONArray revisionTitle = (JSONArray) JsonPath.read(testDataStream, "$..title");
-        return revisionTitle;
+        return JsonPath.read(testDataStream, "$..title");
     }
 }
