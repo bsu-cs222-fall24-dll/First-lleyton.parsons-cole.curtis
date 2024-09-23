@@ -29,7 +29,7 @@ public class WikipediaReader {
     private static JSONArray getTimestamps(String userInput) throws IOException {
         String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
                 URLEncoder.encode(userInput, Charset.defaultCharset()) +
-                "&rvprop=timestamp|user&rvlimit=4&redirects";
+                "&rvprop=timestamp|user&rvlimit=15&redirects";
         try {
             URL url = new URL(encodedUrlString);
             URLConnection connection = url.openConnection();
@@ -46,7 +46,7 @@ public class WikipediaReader {
     private static JSONArray getUsernames(String userInput) throws IOException {
         String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
                 URLEncoder.encode(userInput, Charset.defaultCharset()) +
-                "&rvprop=timestamp|user&rvlimit=4&redirects";
+                "&rvprop=timestamp|user&rvlimit=15&redirects";
         try {
             URL url = new URL(encodedUrlString);
             URLConnection connection = url.openConnection();
@@ -62,7 +62,7 @@ public class WikipediaReader {
     private static JSONArray getRedirect (String userInput) throws IOException {
         String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
                 URLEncoder.encode(userInput, Charset.defaultCharset()) +
-                "&rvprop=timestamp|user&rvlimit=4&redirects";
+                "&rvprop=timestamp|user&rvlimit=15&redirects";
         try {
             URL url = new URL(encodedUrlString);
             URLConnection connection = url.openConnection();
@@ -78,7 +78,7 @@ public class WikipediaReader {
     private static JSONArray getTitle (String userInput) throws IOException {
         String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
                 URLEncoder.encode(userInput, Charset.defaultCharset()) +
-                "&rvprop=timestamp|user&rvlimit=4&redirects";
+                "&rvprop=timestamp|user&rvlimit=15&redirects";
         try {
             URL url = new URL(encodedUrlString);
             URLConnection connection = url.openConnection();
@@ -95,11 +95,11 @@ public class WikipediaReader {
         JSONArray usernames = getUsernames(userInput);
         JSONArray timestamps = getTimestamps(userInput);
         JSONArray redirect = getRedirect(userInput);
-        if(redirect.isEmpty()) {
+        JSONArray title = getTitle(userInput);
+        if (redirect.isEmpty()) {
             System.out.println();
         }
-        else {
-            JSONArray title = getTitle(userInput);
+        else{
             System.out.println("Redirected to " + title.getFirst());
         }
         for (int j = 0; j < usernames.size(); j++) {
