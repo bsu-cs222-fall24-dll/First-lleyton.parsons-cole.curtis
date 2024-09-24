@@ -1,11 +1,12 @@
 package edu.bsu.cs222;
 
 import net.minidev.json.JSONArray;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RevisionParserTest {
     @Test
@@ -13,14 +14,14 @@ public class RevisionParserTest {
         RevisionParser parser = new RevisionParser();
         InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
         JSONArray timestamp = parser.parseTimestamp(testDataStream);
-        Assertions.assertEquals(timestamp, timestamp);
+        assertEquals(timestamp, timestamp);
     }
     @Test
     public void testParseUsername() throws IOException {
         RevisionParser parser = new RevisionParser();
         InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
         JSONArray username = parser.parseUsername(testDataStream);
-        Assertions.assertEquals(username, username);
+        assertEquals(username, username);
 
     }
     @Test
@@ -28,13 +29,20 @@ public class RevisionParserTest {
         RevisionParser parser = new RevisionParser();
         InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
         JSONArray redirect = parser.parseRedirect(testDataStream);
-        Assertions.assertEquals(redirect, redirect);
+        assertEquals(redirect, redirect);
     }
     @Test
     public void testParseTitle() throws IOException{
         RevisionParser parser = new RevisionParser();
         InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
         JSONArray title = parser.parseTitle(testDataStream);
-        Assertions.assertEquals(title, title);
+        assertEquals(title, title);
+    }
+    @Test
+    public void testParseMissing() throws IOException{
+        RevisionParser parser = new RevisionParser();
+        InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
+        JSONArray missing = parser.parseMissing(testDataStream);
+        assertEquals(missing, missing);
     }
 }

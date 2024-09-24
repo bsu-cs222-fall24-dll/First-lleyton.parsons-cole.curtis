@@ -19,4 +19,7 @@ public class RevisionParser {
     public JSONArray parseTitle(InputStream testDataStream) throws IOException{
         return JsonPath.read(testDataStream, "$..title");
     }
+    public JSONArray parseMissing(InputStream testDataStream) throws IOException{
+        return JsonPath.read(testDataStream, "$..missing");
+    }
 }

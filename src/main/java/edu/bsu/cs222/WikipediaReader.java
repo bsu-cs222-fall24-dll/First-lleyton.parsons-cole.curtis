@@ -9,24 +9,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
-import java.util.Scanner;
 
 public class WikipediaReader {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter the name of the wikipedia article you wish to access: ");
-        String userInput = scanner.nextLine();
-        if (userInput.isEmpty()) {
-            noInputError();
-        }
-        try {
-            formatOutput(userInput);
-        } catch (IOException ioException) {
-            System.err.println("Network Connection Problem: " + ioException.getMessage());
-        }
-    }
-
-    private static JSONArray getTimestamps(String userInput) throws IOException {
+    static JSONArray getTimestamps(String userInput) throws IOException {
         String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
                 URLEncoder.encode(userInput, Charset.defaultCharset()) +
                 "&rvprop=timestamp|user&rvlimit=15&redirects";
@@ -42,8 +27,7 @@ public class WikipediaReader {
             throw new RuntimeException(malformedURLException);
         }
     }
-
-    private static JSONArray getUsernames(String userInput) throws IOException {
+    static JSONArray getUsernames(String userInput) throws IOException {
         String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
                 URLEncoder.encode(userInput, Charset.defaultCharset()) +
                 "&rvprop=timestamp|user&rvlimit=15&redirects";
@@ -59,7 +43,7 @@ public class WikipediaReader {
             throw new RuntimeException(malformedURLException);
         }
     }
-    private static JSONArray getRedirect (String userInput) throws IOException {
+    static JSONArray getRedirect(String userInput) throws IOException {
         String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
                 URLEncoder.encode(userInput, Charset.defaultCharset()) +
                 "&rvprop=timestamp|user&rvlimit=15&redirects";
@@ -75,7 +59,7 @@ public class WikipediaReader {
             throw new RuntimeException(malformedURLException);
         }
     }
-    private static JSONArray getTitle (String userInput) throws IOException {
+    static JSONArray getTitle(String userInput) throws IOException {
         String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
                 URLEncoder.encode(userInput, Charset.defaultCharset()) +
                 "&rvprop=timestamp|user&rvlimit=15&redirects";
@@ -90,23 +74,5 @@ public class WikipediaReader {
         } catch (MalformedURLException malformedURLException) {
             throw new RuntimeException(malformedURLException);
         }
-    }
-    public static void formatOutput (String userInput) throws IOException {
-        JSONArray usernames = getUsernames(userInput);
-        JSONArray timestamps = getTimestamps(userInput);
-        JSONArray redirect = getRedirect(userInput);
-        JSONArray title = getTitle(userInput);
-        if (redirect.isEmpty()) {
-            System.out.println();
-        }
-        else{
-            System.out.println("Redirected to " + title.getFirst());
-        }
-        for (int j = 0; j < usernames.size(); j++) {
-            System.out.println("\nTimestamp: " + timestamps.get(j) + "  " + "Username: " + usernames.get(j) + "\n");
-        }
-    }
-    public static void noInputError(){
-        System.err.println("Expecting Wikipedia article name: No article name provided.");
     }
 }
