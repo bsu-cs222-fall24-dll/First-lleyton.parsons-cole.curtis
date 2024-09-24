@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class ConsoleMain {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the name of the wikipedia article you wish to access: ");
         String userInput = scanner.nextLine();
@@ -12,6 +12,7 @@ public class ConsoleMain {
             ErrorChecking.noInputError();
         }
         try {
+            ErrorChecking.noArticleExists(userInput);
             FormatOutput.formatOutput(userInput);
         } catch (IOException ioException) {
             System.err.println("Network Connection Problem: " + ioException.getMessage());

@@ -75,4 +75,20 @@ public class WikipediaReader {
             throw new RuntimeException(malformedURLException);
         }
     }
+    static JSONArray getMissing(String userInput) throws IOException {
+        String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
+                URLEncoder.encode(userInput, Charset.defaultCharset()) +
+                "&rvprop=timestamp|user&rvlimit=15&redirects";
+        try {
+            URL url = new URL(encodedUrlString);
+            URLConnection connection = url.openConnection();
+            connection.setRequestProperty("User-Agent", "WikipediaReader/0.1 (cole.curtis@bsu.edu)");
+            connection.connect();
+            InputStream inputStream = connection.getInputStream();
+            RevisionParser revisionParser = new RevisionParser();
+            return revisionParser.parseMissing(inputStream);
+        } catch (MalformedURLException malformedURLException) {
+            throw new RuntimeException(malformedURLException);
+        }
+    }
 }
