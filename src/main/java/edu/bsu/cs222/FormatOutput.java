@@ -1,23 +1,17 @@
 package edu.bsu.cs222;
 
 import net.minidev.json.JSONArray;
-
 import java.io.IOException;
+import java.util.*;
 
 public class FormatOutput {
-    static void formatOutput (String userInput) throws IOException {
+    static ArrayList<String> formatOutput (String userInput) throws IOException {
         JSONArray usernames = WikipediaReader.getUsernames(userInput);
         JSONArray timestamps = WikipediaReader.getTimestamps(userInput);
-        JSONArray redirect = WikipediaReader.getRedirect(userInput);
-        JSONArray title = WikipediaReader.getTitle(userInput);
-        if (redirect.isEmpty()) {
-            System.out.println();
-        }
-        else{
-            System.out.println("Redirected to " + title.getFirst());
-        }
+        ArrayList<String> revisions = new ArrayList<>();
         for (int j = 0; j < usernames.size(); j++) {
-            System.out.println("\nTimestamp: " + timestamps.get(j) + "  " + "Username: " + usernames.get(j) + "\n");
+            revisions.add("Timestamp: " + timestamps.get(j) + "  " + "Username: " + usernames.get(j) + "\n");
         }
+        return revisions;
     }
 }
