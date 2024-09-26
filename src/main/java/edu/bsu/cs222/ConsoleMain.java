@@ -12,8 +12,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class ConsoleMain {
-    public static void main(String[] args) {
+public class ConsoleMain extends Application{
+    /*public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the name of the wikipedia article you wish to access: ");
         String userInput = scanner.nextLine();
@@ -30,10 +30,9 @@ public class ConsoleMain {
         } catch (IOException ioException) {
             System.err.println("Network Connection Problem: " + ioException.getMessage());
         }
-    }
-}
-   /* @Override
-    public void start(Stage primaryStage) throws Exception{
+    }*/
+    @Override
+    public void start(Stage primaryStage) throws IOException{
         VBox parent = new VBox();
         parent.getChildren().add(new Label("Wikipedia Article Revision Finder"));
 
@@ -42,12 +41,30 @@ public class ConsoleMain {
         urlArea.getChildren().add(textField);
         parent.getChildren().add(urlArea);
 
+        HBox revisionOutput = new HBox();
+
         Button button = new Button("Get Revisions");
-        button.setOnAction(actionEvent -> System.out.println("I would access " + textField.getText() + " here"));
+        button.setOnAction(actionEvent -> {
+            try {
+                revisionOutput.getChildren().clear();
+                String userInput = textField.getText();
+                Label noArticle = new Label(ErrorChecking.noArticleExists(userInput));
+                revisionOutput.getChildren().add(noArticle);
+                Label redirect = new Label(ErrorChecking.redirectPrintOut(userInput));
+                revisionOutput.getChildren().add(redirect);
+                ArrayList<String> revisions = new ArrayList<>(FormatOutput.formatOutput(userInput));
+                for (String revision : revisions) {
+                    Label revisionLabel = (new Label(revision));
+                    revisionOutput.getChildren().add(revisionLabel);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         parent.getChildren().add(button);
 
         primaryStage.setScene(new Scene(parent));
+        primaryStage.setScene(new Scene(revisionOutput));
         primaryStage.show();
     }
 }
-*/
