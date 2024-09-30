@@ -27,5 +27,5 @@ javafx {
     modules("javafx.controls", "javafx.fxml")
 }
 application{
-    mainClass.set("edu.bsu.cs222.ConsoleMain")
+    mainClass.set("edu.bsu.cs222.GUIMain")
 }
