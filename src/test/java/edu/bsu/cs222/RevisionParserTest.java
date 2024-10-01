@@ -36,7 +36,7 @@ public class RevisionParserTest {
         RevisionParser parser = new RevisionParser();
         InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
         JSONArray title = parser.parseTitle(testDataStream);
-        assertEquals(title, title);
+        assertEquals(title.getFirst(),"Lamp");
     }
     @Test
     public void testParseMissing() throws IOException{
