@@ -1,6 +1,7 @@
 package edu.bsu.cs222;
 
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 
@@ -9,7 +10,8 @@ public class ErrorCheckingTest {
     public void testNoArticleExists() throws IOException {
         System.out.println("Test 1:");
         String userInput = "dfasfblaknflkasnklfnasklfndfnlkdsnflkdsnfl";
-        ErrorChecking.noArticleExists(userInput);
+        String errorResult = ErrorChecking.noArticleExists(userInput);
+        assertEquals("No article exists for that input.",errorResult);
     }
     @Test
     public void testNoArticleExistsLamp() throws IOException {
