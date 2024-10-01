@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,16 +24,20 @@ public class GUIMain extends Application {
         TextField textField = new TextField();
         urlArea.getChildren().add(textField);
         parent.getChildren().add(urlArea);
+        Text noArticle = new Text();
+        Text redirect = new Text();
+        Text revisionLabel = new Text();
 
         Button button = new Button("Get 15 Most Recent Revisions");
         button.setOnAction(actionEvent -> {
 
             try {
                 String userInput = textField.getText();
-                Label noArticle = new Label(ErrorChecking.noArticleExists(userInput));
-                parent.getChildren().add(noArticle);
-                Label redirect = new Label(ErrorChecking.redirectPrintOut(userInput));
-                parent.getChildren().add(redirect);
+
+                noArticle.setText(ErrorChecking.noArticleExists(userInput));
+
+                redirect.setText(ErrorChecking.redirectPrintOut(userInput));
+
                 if(userInput.isEmpty()){
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Input Error");
@@ -42,10 +47,11 @@ public class GUIMain extends Application {
                 }
                 else{
                     ArrayList<String> revisions = new ArrayList<>(FormatOutput.formatOutput(userInput));
+                    StringBuilder revisionOutput = new StringBuilder();
                     for (String revision : revisions) {
-                        Label revisionLabel = (new Label(revision));
-                        parent.getChildren().add(revisionLabel);
+                        revisionOutput.append(revision);
                     }
+                    revisionLabel.setText(revisionOutput.toString());
                 }
             } catch (IOException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -56,6 +62,9 @@ public class GUIMain extends Application {
             }
         });
         parent.getChildren().add(button);
+        parent.getChildren().add(noArticle);
+        parent.getChildren().add(redirect);
+        parent.getChildren().add(revisionLabel);
 
         primaryStage.setScene(new Scene(parent));
         primaryStage.show();
