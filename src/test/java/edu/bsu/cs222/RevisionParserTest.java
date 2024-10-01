@@ -43,6 +43,6 @@ public class RevisionParserTest {
         RevisionParser parser = new RevisionParser();
         InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
         JSONArray missing = parser.parseMissing(testDataStream);
-        assertEquals(missing, missing);
+        assertTrue(missing.isEmpty());
     }
 }
