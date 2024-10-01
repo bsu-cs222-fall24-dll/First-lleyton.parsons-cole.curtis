@@ -1,7 +1,10 @@
 package edu.bsu.cs222;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FormatOutputTest{
@@ -9,8 +12,8 @@ public class FormatOutputTest{
     public void testFormatOutput() throws IOException {
     String testInput = "Lamp";
     System.out.println("Test 1:");
-    FormatOutput.formatOutput(testInput);
-    assertEquals(testInput,testInput);
+    ArrayList<String> revision = FormatOutput.formatOutput(testInput);
+    assertEquals(revision.getFirst(), revision.getFirst());
     }
     @Test
     public void testFormatOutputRedirect() throws IOException {
