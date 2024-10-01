@@ -14,22 +14,22 @@ public class RevisionParserTest {
         RevisionParser parser = new RevisionParser();
         InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
         JSONArray timestamp = parser.parseTimestamp(testDataStream);
-        assertEquals(timestamp, timestamp);
+        assertEquals(timestamp.getFirst(), "2024-09-11T20:15:43Z");
     }
     @Test
     public void testParseUsername() throws IOException {
         RevisionParser parser = new RevisionParser();
         InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
         JSONArray username = parser.parseUsername(testDataStream);
-        assertEquals(username, username);
+        assertEquals(username.getFirst(), "CurryTime7-24");
 
     }
     @Test
     public void testParseRedirect() throws IOException{
         RevisionParser parser = new RevisionParser();
-        InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
+        InputStream testDataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test_redirect.json");
         JSONArray redirect = parser.parseRedirect(testDataStream);
-        assertEquals(redirect, redirect);
+        assertFalse(redirect.isEmpty());
     }
     @Test
     public void testParseTitle() throws IOException{
