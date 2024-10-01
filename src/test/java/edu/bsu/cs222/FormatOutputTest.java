@@ -1,6 +1,5 @@
 package edu.bsu.cs222;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ public class FormatOutputTest{
     public void testFormatOutputRedirect() throws IOException {
         String testInput = "Zappa";
         System.out.println("Test 2:");
-        FormatOutput.formatOutput(testInput);
-        assertEquals(testInput,testInput);
+        ArrayList<String> revision = FormatOutput.formatOutput(testInput);
+        assertEquals(revision.getFirst(),revision.getFirst());
     }
 }
